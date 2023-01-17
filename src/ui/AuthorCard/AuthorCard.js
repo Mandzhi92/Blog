@@ -6,7 +6,17 @@ import { Link, Navigate } from 'react-router-dom'
 import { deleteArticle } from '../../redux/store/asyncDataReducer'
 import classes from './AuthorCard.module.scss'
 
-const AuthorCard = ({ createdAt, author, slug, deleteCurrentArticle, token, full, changedApplied, currentUser }) => {
+const AuthorCard = ({
+  createdAt,
+  author,
+  slug,
+  deleteCurrentArticle,
+  token,
+  full,
+  changedApplied,
+  currentUser,
+  authorization,
+}) => {
   const [showModal, setShowModal] = useState(false)
 
   const createdDate = createdAt && format(new Date(createdAt), 'MMMM d, yyyy')
@@ -21,7 +31,7 @@ const AuthorCard = ({ createdAt, author, slug, deleteCurrentArticle, token, full
   }
 
   const buttons =
-    username === currentUser.username && full ? (
+    username === currentUser.username && full && authorization ? (
       <div className={classes.buttons}>
         <button
           type="button"
@@ -99,6 +109,7 @@ AuthorCard.defaultProps = {
   full: false,
   changedApplied: true,
   currentUser: {},
+  authorization: false,
 }
 
 AuthorCard.propTypes = {
@@ -110,9 +121,15 @@ AuthorCard.propTypes = {
   full: PropTypes.bool,
   changedApplied: PropTypes.bool,
   currentUser: PropTypes.shape(),
+  authorization: PropTypes.bool,
 }
 function mapStateToProps(state) {
-  return { token: state.data.token, changedApplied: state.data.succChanged, currentUser: state.data.currentUser }
+  return {
+    token: state.data.token,
+    changedApplied: state.data.succChanged,
+    currentUser: state.data.currentUser,
+    authorization: state.data.isAuthorized,
+  }
 }
 
 function mapDispatchToProps(dispatch) {

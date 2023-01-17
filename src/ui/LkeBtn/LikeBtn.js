@@ -1,28 +1,42 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 import classes from './LikeBtn.module.scss'
 import { likeArticle, unlikeArticle } from '../../redux/store/asyncDataReducer'
 
 const LikeBtn = ({ favoritesCount, favorited, slug, isAuthorized, token, like, unlike }) => {
   useEffect(() => {}, [isAuthorized, favoritesCount])
   const btn = (func, text) => {
+    if (localStorage.isAuthorized) {
+      return (
+        <button
+          type="button"
+          onClick={func}
+          className={classes.buttonLike}
+        >
+          {text}
+        </button>
+      )
+    }
+
     return (
       <button
         type="button"
-        onClick={func}
+        onClick={() => {}}
         className={classes.buttonLike}
       >
         {text}
       </button>
     )
   }
+
   const likeBtn = favorited
-    ? btn(() => unlike(slug, token), `❤️  ${favoritesCount}`)
+    ? btn(() => unlike(slug, token), `❤️ ${favoritesCount}`)
     : btn(() => like(slug, token), `♡  ${favoritesCount}`)
-  return localStorage.isAuthorized ? likeBtn : <Link to="/sign-in">{likeBtn}</Link>
+
+  return likeBtn
 }
+
 LikeBtn.defaultProps = {
   favoritesCount: 0,
   favorited: false,
@@ -43,7 +57,10 @@ LikeBtn.propTypes = {
   unlike: PropTypes.func,
 }
 function mapStateToProps(state) {
-  return { isAuthorized: state.data.isAuthorized, token: state.data.token }
+  return {
+    isAuthorized: state.data.isAuthorized,
+    token: state.data.token,
+  }
 }
 
 function mapDispatchToProps(dispatch) {

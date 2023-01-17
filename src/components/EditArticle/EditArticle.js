@@ -26,13 +26,13 @@ const EditArticle = ({ article, getCurrentArticle, updateCurrArticle, error, tok
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) })
 
-  const [tags, setTags] = useState(defaultTags)
+  const [tags, setTags] = useState(defaultTags || [])
   const [tag, setTag] = useState('')
 
   useEffect(() => {
     getCurrentArticle(id)
     return () => getCurrentArticle(null)
-  }, [tags.length, id, getCurrentArticle])
+  }, [tags.length, id])
 
   const handleChange = (event) => {
     setTag(event.target.value)

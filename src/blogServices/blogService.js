@@ -1,9 +1,10 @@
+/* eslint-disable no-underscore-dangle */
 export default class BlogService {
-  apiBase = 'https://blog.kata.academy/api/'
+  _apiBase = 'https://blog.kata.academy/api/'
 
   async getResource(url, token) {
     const headers = { Accept: 'application/json', 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }
-    const res = await fetch(`${this.apiBase}${url}`, {
+    const res = await fetch(`${this._apiBase}${url}`, {
       method: 'GET',
       headers,
     })
@@ -19,7 +20,7 @@ export default class BlogService {
     if (token) {
       headers.Authorization = `Bearer ${token}`
     }
-    const res = await fetch(`${this.apiBase}${url}`, {
+    const res = await fetch(`${this._apiBase}${url}`, {
       method,
       headers,
       body: JSON.stringify(body),
@@ -30,7 +31,7 @@ export default class BlogService {
 
   async deleteResource(url, token) {
     const headers = { Accept: 'application/json', 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }
-    await fetch(`${this.apiBase}${url}`, {
+    await fetch(`${this._apiBase}${url}`, {
       method: 'DELETE',
       headers,
     })
@@ -38,7 +39,7 @@ export default class BlogService {
   }
 
   async getArticles(page, token) {
-    const articles = await this.getResource(`articles?limit=5&offset=${(page - 1) * 20}`, token)
+    const articles = await this.getResource(`articles?limit=5&offset=${(page - 1) * 5}`, token)
     return articles
   }
 

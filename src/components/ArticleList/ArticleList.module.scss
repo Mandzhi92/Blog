@@ -4,10 +4,10 @@
     width: 66%;
     margin: auto;
     justify-content: space-evenly;
+    position: relative;
 }
 
 .spinner {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 15px;
+    position: absolute;
+    left: 50%;
 }

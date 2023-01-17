@@ -1,16 +1,17 @@
+/* eslint-disable */
 import React from 'react'
 import { connect } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import { Link, Navigate } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import PropTypes from 'prop-types'
 import { login } from '../../redux/store/asyncDataReducer'
 import classes from './SignIn.module.scss'
 import SubmitBtn from '../../ui/SubmitBtn'
 import ErrorMessage from '../../ui/ErrorMessage'
 
 const SignIn = ({ error, logIn, isAuthorized }) => {
+
   const schema = yup.object().shape({
     email: yup.string().required('Email is required').email('Is not in correct format'),
     password: yup
@@ -41,6 +42,7 @@ const SignIn = ({ error, logIn, isAuthorized }) => {
   ]
   const createLabel = (label) => {
     const labelError = errors[label.id] && <p className={classes.warning}>{errors[label.id]?.message}</p>
+    // console.log(labelError)
     return (
       <label
         className={classes.label}
@@ -61,7 +63,7 @@ const SignIn = ({ error, logIn, isAuthorized }) => {
     )
   }
   const labels = labelList.map((item) => createLabel(item))
-
+  
   if (isAuthorized) {
     return (
       <Navigate
@@ -102,8 +104,6 @@ const SignIn = ({ error, logIn, isAuthorized }) => {
 }
 
 SignIn.defaultProps = { error: {}, logIn: () => null, isAuthorized: false }
-
-SignIn.propTypes = { error: PropTypes.shape(), logIn: PropTypes.func, isAuthorized: PropTypes.bool }
 
 function mapStateToProps(state) {
   return { error: state.data.error, isAuthorized: state.data.isAuthorized }

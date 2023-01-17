@@ -1,3 +1,4 @@
+/* eslint-disable */
 import BlogService from '../../blogServices/blogService'
 import {
   toggleIsLoading,
@@ -169,8 +170,7 @@ export const likeArticle = (id, currToken) => (dispatch) => {
   blog
     .likeArticle(id, currToken)
     .then(() => dispatch(throwError({})))
-    .catch((e) => {
-      dispatch(throwError(JSON.parse(e.message)))
+    .catch(() => {
       dispatch(setChanged(false))
     })
 }

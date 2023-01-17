@@ -10,7 +10,7 @@ const Pagination = ({ total, current, setPage }) => {
       <Pag
         current={current}
         total={total}
-        pageSize={20}
+        pageSize={5}
         onChange={(page) => {
           setPage(page)
         }}
